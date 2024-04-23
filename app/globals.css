@@ -5,3 +5,7 @@
 .box {
   @apply w-60 h-60  rounded-2xl p-4 flex flex-col space-y-5  shadow-lg;
 }
+
+:root {
+  @apply bg-violet-200;
+}

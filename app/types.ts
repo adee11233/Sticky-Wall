@@ -5,4 +5,5 @@ export interface StickyPaperProps {
 
   note: Paper;
   saveNote: (note: Paper) => void;
+  removeNote: (id: string) => void;
 }

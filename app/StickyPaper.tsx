@@ -1,41 +1,34 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { StickyPaperProps } from "./types";
-
-const colors = [
-  "bg-red-300",
-  "bg-orange-300",
-  "bg-amber-300",
-  "bg-yellow-400",
-  "bg-lime-300",
-  "bg-green-300",
-  "bg-emerald-300",
-  "bg-teal-300",
-  "bg-cyan-300",
-  "bg-sky-300",
-  "bg-rose-300",
-];
-
-function StickyPaper({ note, saveNote }: StickyPaperProps) {
+import { X } from "lucide-react";
+function StickyPaper({ note, saveNote, removeNote }: StickyPaperProps) {
   const [isEdit, setIsEdit] = useState(false);
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
-
-  function noteRandomColor() {
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    return colors[randomIndex];
-  }
 
   const handleSaveNote = () => {
     saveNote({
       title: title,
       content: content,
       id: note.id,
+      color: note.color,
     });
     setIsEdit(false);
   };
 
+  const handleDelNote = () => {
+    removeNote(note.id);
+  };
+
   return (
-    <div className={`box justify-between text-pretty ${noteRandomColor()}`}>
+    <div
+      className={`box  justify-between text-pretty relative h-32 w-32 ${note.color}`}
+    >
+      <X
+        size={30}
+        onClick={handleDelNote}
+        className=" rounded-md absolute top-4 right-4 cursor-pointer bg-slate-100 bg-opacity-0 hover:rotate-90 transition-transform  "
+      />
       <div className="flex flex-col gap-2">
         {isEdit ? (
           <input
@@ -46,7 +39,6 @@ function StickyPaper({ note, saveNote }: StickyPaperProps) {
         ) : (
           <div className="font-bold text-2xl">{title}</div>
         )}
-
         {isEdit ? (
           <textarea
             value={content}
@@ -57,7 +49,6 @@ function StickyPaper({ note, saveNote }: StickyPaperProps) {
           <div className="break-all">{content}</div>
         )}
       </div>
-
       {isEdit ? (
         <button
           className="bg-pink-200 hover:bg-pink-300 rounded-md duration-300 p-2"
